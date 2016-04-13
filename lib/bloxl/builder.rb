@@ -32,22 +32,18 @@ module BloXL
 
     def stack
       r_before, c_before = @r, @c
+      before_mode = @mode
       @mode = :stack
       yield
     ensure
       # only r should have been shifted after stack building
-      @c = c_before
-      @mode = nil
+      @r = r_before if before_mode == :bar
     end
 
     def bar
       r_before, c_before = @r, @c
       @mode = :bar
       yield
-    ensure
-      # only c should have been shifted after bar building
-      @r = r_before
-      @mode = nil
     end
 
     def shift!(dr, dc)
